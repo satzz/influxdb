@@ -22,6 +22,7 @@
 - [#7457](https://github.com/influxdata/influxdb/issues/7457): KILL QUERY should work during all phases of a query
 - [#8155](https://github.com/influxdata/influxdb/pull/8155): Simplify admin user check.
 - [#8118](https://github.com/influxdata/influxdb/issues/8118): Significantly improve DROP DATABASE speed.
+- [#8171](https://github.com/influxdata/influxdb/issues/8171): Significantly improve shutdown speed for high cardinality databases.
 
 ## v1.2.2 [2017-03-14]
 
