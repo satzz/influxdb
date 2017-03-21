@@ -23,6 +23,7 @@
 - [#8155](https://github.com/influxdata/influxdb/pull/8155): Simplify admin user check.
 - [#8118](https://github.com/influxdata/influxdb/issues/8118): Significantly improve DROP DATABASE speed.
 - [#8171](https://github.com/influxdata/influxdb/issues/8171): Significantly improve shutdown speed for high cardinality databases.
+- [#8181](https://github.com/influxdata/influxdb/issues/8181): Return an error when an invalid duration literal is parsed.
 
 ## v1.2.2 [2017-03-14]
 
