@@ -14,6 +14,7 @@
 
 ### Bugfixes
 
+- [#8093](https://github.com/influxdata/influxdb/issues/8093): Fix the time range when an exact timestamp is selected.
 - [#8091](https://github.com/influxdata/influxdb/issues/8091): Do not increment the continuous query statistic if no query is run.
 - [#8064](https://github.com/influxdata/influxdb/issues/8064): Forbid wildcards in binary expressions.
 - [#8148](https://github.com/influxdata/influxdb/issues/8148): Fix fill(linear) when multiple series exist and there are null values.
@@ -22,6 +23,8 @@
 - [#7457](https://github.com/influxdata/influxdb/issues/7457): KILL QUERY should work during all phases of a query
 - [#8155](https://github.com/influxdata/influxdb/pull/8155): Simplify admin user check.
 - [#8177](https://github.com/influxdata/influxdb/issues/8177): Fix racy integration test.
+- [#8118](https://github.com/influxdata/influxdb/issues/8118): Significantly improve DROP DATABASE speed.
+- [#8181](https://github.com/influxdata/influxdb/issues/8181): Return an error when an invalid duration literal is parsed.
 
 ## v1.2.2 [2017-03-14]
 
