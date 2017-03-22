@@ -2549,6 +2549,41 @@ func (p *Parser) parseUnaryExpr() (Expr, error) {
 		default:
 			return nil, fmt.Errorf("unable to bind parameter with type %T", v)
 		}
+	case ADD, SUB:
+		mul := 1
+		for {
+			if tok == SUB {
+				mul *= -1
+			}
+
+			tok, _, _ = p.scanIgnoreWhitespace()
+			switch tok {
+			case ADD, SUB:
+				continue
+			case NUMBER, INTEGER, DURATIONVAL:
+				// Unscan the token and use parseUnaryExpr.
+				p.unscan()
+
+				lit, err := p.parseUnaryExpr()
+				if err != nil {
+					return nil, err
+				}
+
+				switch lit := lit.(type) {
+				case *NumberLiteral:
+					lit.Val *= float64(mul)
+				case *IntegerLiteral:
+					lit.Val *= int64(mul)
+				case *DurationLiteral:
+					lit.Val *= time.Duration(mul)
+				default:
+					panic(fmt.Sprintf("unexpected literal: %T", lit))
+				}
+				return lit, nil
+			default:
+				return nil, newParseError(tokstr(tok, lit), []string{"identifier", "string", "number", "bool"}, pos)
+			}
+		}
 	default:
 		return nil, newParseError(tokstr(tok, lit), []string{"identifier", "string", "number", "bool"}, pos)
 	}

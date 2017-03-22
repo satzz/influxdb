@@ -2827,6 +2827,15 @@ func TestParser_ParseExpr(t *testing.T) {
 		// Primitives
 		{s: `100.0`, expr: &influxql.NumberLiteral{Val: 100}},
 		{s: `100`, expr: &influxql.IntegerLiteral{Val: 100}},
+		{s: `-100.0`, expr: &influxql.NumberLiteral{Val: -100}},
+		{s: `-100`, expr: &influxql.IntegerLiteral{Val: -100}},
+		{s: `100.`, expr: &influxql.NumberLiteral{Val: 100}},
+		{s: `-100.`, expr: &influxql.NumberLiteral{Val: -100}},
+		{s: `.23`, expr: &influxql.NumberLiteral{Val: 0.23}},
+		{s: `-.23`, expr: &influxql.NumberLiteral{Val: -0.23}},
+		{s: `1s`, expr: &influxql.DurationLiteral{Val: time.Second}},
+		{s: `-1s`, expr: &influxql.DurationLiteral{Val: -time.Second}},
+		{s: `++-+- -1`, expr: &influxql.IntegerLiteral{Val: -1}},
 		{s: `'foo bar'`, expr: &influxql.StringLiteral{Val: "foo bar"}},
 		{s: `true`, expr: &influxql.BooleanLiteral{Val: true}},
 		{s: `false`, expr: &influxql.BooleanLiteral{Val: false}},
@@ -2954,6 +2963,30 @@ func TestParser_ParseExpr(t *testing.T) {
 					LHS: &influxql.IntegerLiteral{Val: 1},
 					RHS: &influxql.IntegerLiteral{Val: 2},
 				},
+				RHS: &influxql.IntegerLiteral{Val: 3},
+			},
+		},
+
+		// Addition and subtraction without whitespace.
+		{
+			s: `1+2-3`,
+			expr: &influxql.BinaryExpr{
+				Op: influxql.SUB,
+				LHS: &influxql.BinaryExpr{
+					Op:  influxql.ADD,
+					LHS: &influxql.IntegerLiteral{Val: 1},
+					RHS: &influxql.IntegerLiteral{Val: 2},
+				},
+				RHS: &influxql.IntegerLiteral{Val: 3},
+			},
+		},
+
+		// Multiplication with leading subtraction.
+		{
+			s: `-2 * 3`,
+			expr: &influxql.BinaryExpr{
+				Op:  influxql.MUL,
+				LHS: &influxql.IntegerLiteral{Val: -2},
 				RHS: &influxql.IntegerLiteral{Val: 3},
 			},
 		},
